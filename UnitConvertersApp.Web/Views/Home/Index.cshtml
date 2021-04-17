@@ -1,0 +1,53 @@
+﻿@{
+	var unitsList = (IEnumerable<SelectListItem>)ViewData["unitsList"];
+}
+@model ConvertModel
+ 
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+	<div class="col-md-8">
+		<form asp-action="Convert" >
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="NumberToConvert" class="control-label"></label>
+				<input asp-for="NumberToConvert" class="form-control" />
+				<span asp-validation-for="NumberToConvert" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="OriginalUnits" class="control-label"></label>
+				<select class="selectpicker form-control" asp-for="OriginalUnits">
+					@foreach (var item in unitsList)
+					{
+						<option value="@item.Value">@item.Text</option> 
+					}
+				</select>
+				<span asp-validation-for="OriginalUnits" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="ConvertedUnits" class="control-label"></label>
+				<select class="selectpicker form-control" asp-for="ConvertedUnits">
+					@foreach (var item in unitsList)
+					{
+						<option value="@item.Value">@item.Text</option>
+
+					}
+				</select>
+				<span asp-validation-for="ConvertedUnits" class="text-danger"></span>
+			</div> 
+
+			<div class="form-group">
+				<input type="submit" value="Convert" class="btn btn-primary" /> 
+			</div>
+		</form>
+		
+		@if (ViewData["Result"] != null)
+		{
+			<span>@ViewData["Result"]</span>
+		}
+	</div>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
